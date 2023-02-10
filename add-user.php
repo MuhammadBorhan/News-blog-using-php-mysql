@@ -56,7 +56,7 @@
                           <label>First Name</label>
                           <input type="text" name="fname" class="form-control" placeholder="First Name" required>
                       </div>
-                          <div class="form-group mb-3">
+                      <div class="form-group mb-3">
                           <label>Last Name</label>
                           <input type="text" name="lname" class="form-control" placeholder="Last Name" required>
                       </div>

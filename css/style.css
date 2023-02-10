@@ -42,12 +42,13 @@ ul {
 }
 
 .add-new {
-  padding: 10px 20px;
   background-color: blue;
   border-radius: 5px;
 }
 .add-new a {
   color: white;
+  padding: 10px 20px;
+  display: block;
   text-transform: capitalize;
   font-weight: bold;
 }
@@ -59,15 +60,22 @@ ul {
 }
 
 .pagination li {
-  background-color: rgba(64, 64, 245, 0.747);
-  padding: 10px 20px;
+  background-color: blue;
+  /* padding: 10px 20px; */
   border-radius: 6px;
+  cursor: pointer;
 }
 .pagination li a {
   color: white;
+  padding: 10px 20px;
+  display: block;
 }
 .pagination .active {
-  background-color: blue;
+  background-color: lightblue;
+}
+.pagination .active a {
+  color: red;
+  font-weight: bold;
 }
 
 .blog-footer {

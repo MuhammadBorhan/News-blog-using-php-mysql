@@ -1,31 +1,95 @@
-<?php include 'header.php'?>
+<?php include 'header.php' ?>
 
-<form class="d-flex justify-content-center align-items-center flex-column" style="max-width: 500px; margin: 0 auto;">
-  <div class="form-group">
-    <label for="firstName">First Name</label>
-    <input type="text" class="form-control" id="firstName" placeholder="Enter First Name">
-  </div>
-  <div class="form-group">
-    <label for="lastName">Last Name</label>
-    <input type="text" class="form-control" id="lastName" placeholder="Enter Last Name">
-  </div>
-  <div class="form-group">
-    <label for="username">Username</label>
-    <input type="text" class="form-control" id="username" placeholder="Enter Username">
-  </div>
-  <div class="form-group">
-    <label for="image">Image</label>
-    <input type="file" class="form-control-file" id="image">
-  </div>
-  <div class="form-group">
-    <label for="role">Role</label>
-    <select class="form-control" id="role">
-      <option>Administrator</option>
-      <option>User</option>
-      <option>Guest</option>
-    </select>
-  </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
-</form>
 
-<?php include 'footer.php'?>
+<div class='container my-5'>
+    <div class='d-flex justify-content-between'>
+        <h1>All Categories</h1>
+        <p class="add-new"><a href="add-category.php">add Category</a></p>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-dark table-hover">
+        <thead>
+            <tr>
+            <th scope="col">SL No.</th>
+            <th scope="col">Category Name</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+        
+        <?php 
+            include "config.php";
+            $serial=1;
+
+               // Pagination code start
+               $limit = 3;
+               if(isset($_GET['page'])){
+                 $page_number = $_GET['page'];
+               }else{
+                 $page_number = 1;
+               }
+                 
+               $offset = ($page_number - 1) * $limit;
+               $query = "SELECT * FROM category LIMIT $offset, $limit";
+               // Pagination code end
+
+            // $query = "SELECT * FROM user ORDER BY user_id";
+            $result = mysqli_query($connection,$query) or die("Failed");
+            $count = mysqli_num_rows($result);
+
+            if($count > 0){ // if condition first backet
+                while($row = mysqli_fetch_assoc($result)){ // while loop firts backet
+        
+        ?>
+            <tr>
+                <th><?php echo $serial++ ?></th>
+                <td><?php echo $row['category_name'] ?></td>
+                <td class='edit'><a href='update-category.php?id=<?php echo $row['category_id'] ?>'>Edit</a></td>
+                <td class='delete'>
+                <a onclick="return confirm('Are You Sure?')" href='delete-category.php?id=<?php echo $row['category_id'] ?>'>Delete</a>
+                </td>
+            </tr>
+            <!-- while loop last backet -->
+            <?php } ?>
+        </tbody>
+        <!-- if condition last backet -->
+        <?php } ?>
+        </table>
+
+              <!-- Pagination list start -->
+              <?php 
+                include "config.php";
+                $query2 = "SELECT * FROM category";
+                $result2 = mysqli_query($connection,$query2) or dir("Failed.");
+                if(mysqli_num_rows($result2)){
+                    $total_records = mysqli_num_rows($result2);
+                    $total_page = ceil($total_records/$limit);
+
+                    echo "<ul class='pagination d-flex justify-content-center gap-3'>";
+                    if($page_number > 1){
+                        echo '<li><a href="category.php?page='.($page_number-1).'">prev</a></li>';
+                    }
+
+                    for($i = 1; $i <= $total_page; $i++){
+
+                        if($i == $page_number){
+                          $active = "active";
+                        }else{
+                          $active = "";
+                        }
+
+                        echo '<li class='.$active.'><a href="category.php?page='.$i.'">'.$i.'</a></li>';
+                    }
+                    if($total_page > $page_number){
+                        echo '<li><a href="category.php?page='.($page_number+1).'">next</a></li>';
+                    }
+                        echo "</ul>";
+                }
+            ?>
+            <!-- Pagination list end -->
+
+    </div>
+</div>
+
+<?php include 'footer.php' ?>
