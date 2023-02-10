@@ -1,0 +1,52 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #f1f1f1;
+  font-family: sans-serif, arial, Helvetica;
+}
+
+a,
+a:hover,
+a:focus {
+  text-decoration: none;
+  outline: none;
+}
+
+.blog-nav {
+  padding: 5px 20px;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.blog-menu li {
+  display: inline-block;
+  margin: 0 5px 0 0;
+}
+
+.blog-menu li a {
+  color: #3179c3;
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 0 10px;
+  display: block;
+  transition: all 0.3s;
+}
+
+.blog-users {
+  height: 80vh;
+}
+
+.blog-footer {
+  background-color: black;
+  color: white;
+  padding: 6px 0;
+}
