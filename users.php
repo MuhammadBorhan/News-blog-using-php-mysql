@@ -1,36 +1,109 @@
 <?php include 'header.php' ?>
 
 
-<div class='container mt-5 blog-users'>
-<table class="table table-dark table-striped">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">First</th>
-      <th scope="col">Last</th>
-      <th scope="col">Handle</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td colspan="2">Larry the Bird</td>
-      <td>@twitter</td>
-    </tr>
-  </tbody>
-</table>
+<div class='container my-5'>
+    <div class='d-flex justify-content-between'>
+        <h1>All Users</h1>
+        <p class="add-new"><a href="add-user.php">add user</a></p>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-dark table-hover">
+        <thead>
+            <tr>
+            <th scope="col">SL No.</th>
+            <th scope="col">Profile</th>
+            <th scope="col">Full Name</th>
+            <th scope="col">Username</th>
+            <th scope="col">Role</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+        
+        <?php 
+            include "config.php";
+            $serial=1;
+
+               // Pagination code start
+               $limit = 3;
+               if(isset($_GET['page'])){
+                 $page_number = $_GET['page'];
+               }else{
+                 $page_number = 1;
+               }
+                 
+               $offset = ($page_number - 1) * $limit;
+               $query = "SELECT * FROM user ORDER BY user_id LIMIT $offset, $limit";
+               // Pagination code end
+
+            // $query = "SELECT * FROM user ORDER BY user_id";
+            $result = mysqli_query($connection,$query) or die("Failed");
+            $count = mysqli_num_rows($result);
+
+            if($count > 0){ // if condition first backet
+                while($row = mysqli_fetch_assoc($result)){ // while loop firts backet
+        
+        ?>
+            <tr>
+                <th><?php echo $serial++ ?></th>
+                <td><img class='user-profile' src="upload/<?php echo $row['profile'];?>"></td>
+                <td><?php echo $row['first_name']." ".$row['last_name'] ?></td>
+                <td><?php echo $row['username'] ?></td>
+                <td><?php 
+                
+                if($row['role'] == 1){
+                    echo "Admin";
+                }else{
+                    echo "Moderator";
+                }
+                
+                ?></td>
+                <td class='edit'><a href='update-user.php?id=<?php echo $row['user_id'] ?>'>Edit</a></td>
+                <td class='delete'>
+                <a onclick="return confirm('Are You Sure?')" href='delete-user.php?id=<?php echo $row['user_id'] ?>'>Delete</a>
+                </td>
+            </tr>
+            <!-- while loop last backet -->
+            <?php } ?>
+        </tbody>
+        <!-- if condition last backet -->
+        <?php } ?>
+        </table>
+
+              <!-- Pagination list start -->
+              <?php 
+                include "config.php";
+                $query2 = "SELECT * FROM user";
+                $result2 = mysqli_query($connection,$query2) or dir("Failed.");
+                if(mysqli_num_rows($result2)){
+                    $total_records = mysqli_num_rows($result2);
+                    $total_page = ceil($total_records/$limit);
+
+                    echo "<ul class='pagination d-flex justify-content-center gap-3'>";
+                    if($page_number > 1){
+                        echo '<li><a href="users.php?page='.($page_number-1).'">prev</a></li>';
+                    }
+
+                    for($i = 1; $i <= $total_page; $i++){
+
+                        if($i == $page_number){
+                          $active = "active";
+                        }else{
+                          $active = "";
+                        }
+
+                        echo '<li class='.$active.'><a href="users.php?page='.$i.'">'.$i.'</a></li>';
+                    }
+                    if($total_page > $page_number){
+                        echo '<li><a href="users.php?page='.($page_number+1).'">next</a></li>';
+                    }
+                        echo "</ul>";
+                }
+            ?>
+            <!-- Pagination list end -->
+
+    </div>
 </div>
 
 <?php include 'footer.php' ?>
