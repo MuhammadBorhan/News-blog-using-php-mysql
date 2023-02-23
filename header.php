@@ -31,7 +31,7 @@
             <a href="category.php">Category</a>
         </li>
         <li>
-            <a href="category.php">Post</a>
+            <a href="post.php">Post</a>
         </li>
         <li>
             <a href="#">Logout</a>
