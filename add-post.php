@@ -15,7 +15,7 @@
                             $title = mysqli_real_escape_string($connection,$_POST['title']);
                             $postDesc = mysqli_real_escape_string($connection,$_POST['postDesc']);
                             $category = mysqli_real_escape_string($connection,$_POST['category']);
-                            // $date = date("d M, Y");
+                            $date = date("d M, Y");
 
                             $image = $_FILES['image'];
                             $image_name = $image['name'];
@@ -37,8 +37,8 @@
                             echo "<p class='text-danger'>Category Already Exists.</p>";
                             }else{
                                 
-                            $insertPost = "INSERT INTO post (title,description,category,post_image) 
-                            VALUE ('$title','$postDesc','$category','$image_name')";
+                            $insertPost = "INSERT INTO post (title,description,category,post_date,post_image) 
+                            VALUE ('$title','$postDesc','$category','$date','$image_name')";
 
                             $createPost = mysqli_query($connection,$insertPost) or die("Query Failed.");
 
